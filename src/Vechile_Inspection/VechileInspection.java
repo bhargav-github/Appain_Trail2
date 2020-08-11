@@ -16,6 +16,7 @@ public class VechileInspection {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		// TODO Auto-generated method stub
+
 		File file = new File("Config/Customer.properties");
 		Properties prop = new Properties();
 		FileInputStream fis = new FileInputStream(file);
@@ -31,7 +32,7 @@ public class VechileInspection {
 
 		XpathExpressions XP = new XpathExpressions();
 		for (int i = 1; i < 2; i++) {
-			/*General Information*/
+			/* General Information */
 			key.dropdown(XP.storeNumber, sh.getRow(i).getCell(0).toString());
 			key.Sendkeys(XP.InspectSubmitBy, sh.getRow(i).getCell(1).toString());
 			key.Sendkeys(XP.customerID, NumberToTextConverter.toText(sh.getRow(i).getCell(2).getNumericCellValue()));
@@ -39,8 +40,8 @@ public class VechileInspection {
 			key.Sendkeys(XP.firstname, sh.getRow(i).getCell(4).toString());
 			key.Sendkeys(XP.lastname, sh.getRow(i).getCell(5).toString());
 			key.Clickaction(XP.CommonButton);
-			
-			/*Vechile Inspection*/
+
+			/* Vechile Inspection */
 			Thread.sleep(1000);
 			key.dropdown(XP.Year, NumberToTextConverter.toText(sh.getRow(i).getCell(6).getNumericCellValue()));
 			key.Sendkeys(XP.Make, sh.getRow(i).getCell(7).toString());
@@ -52,8 +53,8 @@ public class VechileInspection {
 			key.Clickaction(XP.CheckboxBtn2);
 			key.Clickaction(XP.CheckboxBtn3);
 			key.Clickaction(XP.CommonButton);
-			
-			/*Vehicle Condition*/
+
+			/* Vehicle Condition */
 			Thread.sleep(1000);
 			key.Clickaction(XP.OverallInterior);
 			key.Clickaction(XP.DoorPanels);
@@ -76,16 +77,21 @@ public class VechileInspection {
 			key.Clickaction(XP.EngineNoises);
 			key.Clickaction(XP.FluidLeaks);
 			key.Clickaction(XP.CommonButton);
-			Thread.sleep(10000);
-			System.out.println("hi bhargav");
-			key.Clickaction(XP.DriversideUpload);
-			
-			
-			
-			
-			
-	
-			
+
+			/* Picture Upload */
+			key.Sendkeys(XP.GPSID, sh.getRow(i).getCell(12).toString());
+			key.Sendkeys1(XP.DriversideUpload, sh.getRow(i).getCell(13).toString());
+			key.Sendkeys1(XP.PassengersideUpload, sh.getRow(i).getCell(14).toString());
+			key.Sendkeys1(XP.FrontsideUpload, sh.getRow(i).getCell(15).toString());
+			key.Sendkeys1(XP.RearsideUpload, sh.getRow(i).getCell(16).toString());
+			key.Sendkeys1(XP.VINUpload, sh.getRow(i).getCell(17).toString());
+			key.Sendkeys1(XP.EnginebayUpload, sh.getRow(i).getCell(18).toString());
+			key.Sendkeys1(XP.InteriorUpload, sh.getRow(i).getCell(19).toString());
+			key.Sendkeys1(XP.OdometerUpload, sh.getRow(i).getCell(20).toString());
+			key.Sendkeys1(XP.GPSIDNumberUpload, sh.getRow(i).getCell(21).toString());
+			key.Sendkeys(XP.GPSInstallation, sh.getRow(i).getCell(22).toString());
+//			key.Clickaction(XP.Submit);
+
 		}
 	}
 

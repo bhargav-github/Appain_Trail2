@@ -130,7 +130,7 @@ public class mainfile {
 			Thread.sleep(500);
 			key.Clickaction(XP.Checkbox);
 			key.canvasESign(XP.Signature);
-			key.Clickaction(XP.Submit);
+//			key.Clickaction(XP.Submit);
 
 		}
 	}

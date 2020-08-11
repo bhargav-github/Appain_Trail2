@@ -4,6 +4,7 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -16,11 +17,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-
 public class keyword {
 
 	static WebDriver driver;
-   
+
 	public void url(String url) throws InterruptedException {
 		System.setProperty("webdriver.chrome.driver", "Driver//chromedriver.exe");
 
@@ -30,97 +30,63 @@ public class keyword {
 		driver.get(url);
 	}
 
-	public void dropdown(String path, String value)
-	{
+	public void dropdown(String path, String value) {
 		waitForElement(path);
 		WebElement ops = driver.findElement(By.xpath(path));
-		Select sel=new Select(ops);
+		Select sel = new Select(ops);
 		sel.selectByVisibleText(value);
 	}
-	
-	public void Sendkeys(String path,String value) throws InterruptedException 
-	{   Clickaction(path);
+
+	public void Sendkeys(String path, String value) throws InterruptedException {
+		Clickaction(path);
 		waitForElement(path);
-	 	driver.findElement(By.xpath(path)).sendKeys(value); 
-	 	
+		driver.findElement(By.xpath(path)).sendKeys(value);
+
 	}
-	
-	public void Clickaction(String path) throws InterruptedException
-	{
+
+	public void Sendkeys1(String path, String value) throws InterruptedException {
+//		Clickaction(path);
+//		waitForElement(path);
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.findElement(By.xpath(path)).sendKeys(value);
+
+	}
+
+	public void Clickaction(String path) throws InterruptedException {
 
 		waitForElement(path);
-//		Thread.sleep(500);
 		driver.findElement(By.xpath(path)).click();
-		Thread.sleep(100);
+
 	}
-	
-	public void ScrollUp(String path) throws InterruptedException
-	{
+
+	public void ScrollUp(String path) throws InterruptedException {
 		WebElement element = driver.findElement(By.xpath(path));
 		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-		
-		
-		/*
-		 * JavascriptExecutor js = ((JavascriptExecutor) driver);
-		 * js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
-		 * Thread.sleep(1000);
-		 */
+
 	}
-	
-	public void canvasESign(String element)
-	{
-		  WebElement target  =  waitForElement(element);
-		   	target.click();
-		    System.out.println(target);
-		    
-		 //   wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("canves-block"))).click();
-		    Actions builder = new Actions(driver);
-		    Action drawAction = builder.moveToElement(target,20,20) //start points x axis and y axis.
-		    .clickAndHold(target)
-		    .moveByOffset(80, 80) // 2nd points (x1,y1)
-		    .dragAndDropBy(target, 80, 80)
-		    .moveByOffset(150, 20) // 3rd points (x2,y2)
-		   .dragAndDropBy(target, 50, 20)
-		   .moveByOffset(250, 20) // 3rd points (x2,y2)
-		   .dragAndDropBy(target, 200, 250)
-		   .moveByOffset(150, 50) // 3rd points (x2,y2)
-		   
-		   .dragAndDropBy(target, 50, 20)
-		    .release(target)
-		    .build();
-		    drawAction.perform();	
+
+	public void canvasESign(String element) {
+		WebElement target = waitForElement(element);
+		target.click();
+		System.out.println(target);
+
+		// wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("canves-block"))).click();
+		Actions builder = new Actions(driver);
+		Action drawAction = builder.moveToElement(target, 20, 20) // start points x axis and y axis.
+				.clickAndHold(target).moveByOffset(80, 80) // 2nd points (x1,y1)
+				.dragAndDropBy(target, 80, 80).moveByOffset(150, 20) // 3rd points (x2,y2)
+				.dragAndDropBy(target, 50, 20).moveByOffset(250, 20) // 3rd points (x2,y2)
+				.dragAndDropBy(target, 200, 250).moveByOffset(150, 50) // 3rd points (x2,y2)
+
+				.dragAndDropBy(target, 50, 20).release(target).build();
+		drawAction.perform();
 	}
-	
-	
+
 	public static WebElement waitForElement(String item) {
-		WebDriverWait wait = new WebDriverWait(driver, 5);
-		WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(item)));
+		WebDriverWait wait = new WebDriverWait(driver, 15);
+//		WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(item)));
+		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(item)));
 		return element;
-	}
-	
-	public static  void setClipboardData(String string){
-		//StringSelection is a class that can be used for copy and paste operations.
-		   StringSelection stringSelection = new StringSelection(string);
-		   Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
-		}
-	public void uploadFile(String fileLocation) {
-        try {
-        	//Setting clipboard with file location
-            setClipboardData(fileLocation);
-            //native key strokes for CTRL, V and ENTER keys
-            Robot robot = new Robot();
-            robot.keyPress(KeyEvent.VK_CONTROL);
-            robot.keyPress(KeyEvent.VK_V);
-            robot.keyRelease(KeyEvent.VK_V);
-            robot.keyRelease(KeyEvent.VK_CONTROL);
-            robot.keyPress(KeyEvent.VK_ENTER);
-            robot.keyRelease(KeyEvent.VK_ENTER);
-        }
-        catch (Exception exp)
-        {
-        	exp.printStackTrace();
-        }
-        
 	}
 
 }
